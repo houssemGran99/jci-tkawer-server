@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import teamsRouter from './routes/teams.js';
 import playersRouter from './routes/players.js';
 import matchesRouter from './routes/matches.js';
+import newsRouter from './routes/news.js';
 import authRouter from './routes/auth.js';
 
 dotenv.config();
@@ -23,8 +24,7 @@ const io = new Server(httpServer, {
     cors: {
         origin: "*", // Allow all origins for simplicity in development, restrict in production
         methods: ["GET", "POST", "PUT", "DELETE"]
-    },
-    pingTimeout: 60000 // Increase timeout to 60s to avoid frequent disconnects on slow networks
+    }
 });
 
 // Middleware to attach io to request
@@ -60,6 +60,8 @@ app.get('/', (req, res) => {
 app.use('/api/teams', teamsRouter);
 app.use('/api/players', playersRouter);
 app.use('/api/matches', matchesRouter);
+app.use('/api/news', newsRouter);
+
 app.use('/api', authRouter); // Auth router mounts on /api directly because it defines /login
 
 httpServer.listen(port, () => {
